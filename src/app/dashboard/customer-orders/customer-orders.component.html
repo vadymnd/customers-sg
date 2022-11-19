@@ -1,0 +1,109 @@
+<div class="flex align-items-center mb-3">
+    <a href="" (click)="$event.preventDefault(); navigation.back();" pButton class="p-button-raised p-button-rounded">Назад</a>
+
+    <span class="text-4xl mx-5 text-bold" *ngIf="customer">Замовлення клієнта {{ customer.name }}</span>
+
+    <button pButton type="button" label="Додати замовлення" icon="pi pi-plus" class="p-button p-button-success"
+        (click)="display = true"></button>
+</div>
+
+<p-table styleClass="p-datatable-gridlines" [value]="orders" dataKey="id" [globalFilterFields]="['name']" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Назва виробу</th>
+            <th>Ціна виробу</th>
+            <th>Витрати</th>
+            <th>Заробіток</th>
+            <th>Наклейки</th>
+            <th>Дата оновлення</th>
+            <th>Примітки</th>
+            <th>Дії</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-order let-expanded="expanded">
+        <tr [ngClass]="{'not_completed': !order.isCompleted, 'not_paid': !order.isPaid}">
+            <td [pRowToggler]="order">
+                <button style="width: 1.2rem; height: 1.2rem;" type="button" pButton pRipple
+                    class="p-button-text p-button-rounded p-button-plain p-2"
+                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                {{ order.productName }}
+            </td>
+            <td>{{ order.price }}</td>
+            <td>{{ order.costs }}</td>
+            <td>{{ order.profit }}</td>
+            <td>{{ order.stickers }}</td>
+            <td>{{ order.updated | date:'short':undefined:'ru' }}</td>
+            <td>{{ order.notes }}</td>
+            <td style="white-space: nowrap;">
+                <button style="width: 1.2rem; height: 1.2rem; padding: .85rem" pButton type="button" icon="pi pi-pencil"
+                    class="p-button" (click)="edit(order)"></button>
+                <button #btn style="width: 1.2rem; height: 1.2rem; padding: .85rem" pButton type="button" icon="pi pi-trash"
+                    class="p-button p-button-danger ml-2" (click)="delete(btn, order)"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-order>
+        <tr>
+            <td colspan="6" class="px-5 pb-0" style="border: none;">
+                <table class="p-datatable">
+                    <thead class="p-datatable-thead">
+                        <tr>
+                            <th style="width: 16%">Об'єм груді</th>
+                            <th style="width: 16%">Об'єм талії</th>
+                            <th style="width: 16%">Довжина рук</th>
+                            <th style="width: 16%">Довжина кофти</th>
+                            <th style="width: 16%">Розмір кофти</th>
+                            <th style="width: 16%">Обхват манжета рукавів</th>
+                        </tr>
+                    </thead>
+                    <tbody class="p-element p-datatable-tbody">
+                        <tr>
+                            <td>{{ order.breastVolume }}</td>
+                            <td>{{ order.waist }}</td>
+                            <td>{{ order.armLength }}</td>
+                            <td>{{ order.sweaterLength }}</td>
+                            <td>{{ order.sweaterSize }}</td>
+                            <td>{{ order.cuffGirth }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6" class="px-5 pt-0 pb-5" style="border: none;">
+                <table class="p-datatable">
+                    <thead class="p-datatable-thead">
+                        <tr>
+                            <th style="width: 16%">Об'єм бедер</th>
+                            <th style="width: 16%">Довжина внутрішнього шву</th>
+                            <th style="width: 16%">Довжина брюк</th>
+                            <th style="width: 16%">Розмір брюк</th>
+                            <th style="width: 16%">Обхват манжета брюк</th>
+                            <th style="width: 16%"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="p-element p-datatable-tbody">
+                        <tr>
+                            <td>{{ order.hips }}</td>
+                            <td>{{ order.innerSeam }}</td>
+                            <td>{{ order.pantsLength }}</td>
+                            <td>{{ order.pantsSize }}</td>
+                            <td>{{ order.cuffTrouser }}</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="8">У цього клієнта немає замовлень</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog (onHide)="orderForEdit = null" [style]="{width: '1000px', height: '1000px'}" [draggable]="true" [modal]="true"
+    [header]="orderForEdit ? 'Редагувати замовлення' : 'Нове замовлення'" [(visible)]="display">
+    <app-new-order (onClose)="display = false" *ngIf="display" [customerId]="id" [order]="orderForEdit"></app-new-order>
+</p-dialog>

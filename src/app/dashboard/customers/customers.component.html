@@ -1,0 +1,83 @@
+<button pButton type="button" label="Додати клієнта" icon="pi pi-plus" class="p-button p-button-success mb-3 mr-3" (click)="display = true"></button>
+<a routerLink="finances">
+    <button pButton type="button" label="Переглянути звітність" icon="pi pi-bill" class="p-button p-button-success mb-3"></button>
+</a>
+<p-table styleClass="p-datatable-gridlines" [value]="customers" [globalFilterFields]="['name']"  dataKey="name" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>
+                <div class="flex flex-column justify-content-center align-items-center">
+                    <div class="mb-2">
+                        Ім'я
+                    </div>
+                    <p-columnFilter [showMenu]="false" matchMode="contains" type="text" field="name" ></p-columnFilter>
+                </div>
+            </th>
+            <th>
+                <div class="flex flex-column justify-content-center align-items-center">
+                    <div class="mb-2">
+                        Номер телефону
+                    </div>
+                    <p-columnFilter [showMenu]="false" matchMode="contains" type="text" field="phone" ></p-columnFilter>
+                </div>
+            </th>
+            <th pSortableColumn="completed">
+                <div class="flex flex-column justify-content-center align-items-center" >
+                    <div class="mb-2">
+                        Завершені замовлення
+                        <p-sortIcon field="completed"></p-sortIcon>
+                    </div>
+                </div>
+            </th>
+            <th pSortableColumn="not_completed">
+                <div class="flex flex-column justify-content-center align-items-center" >
+                    <div class="mb-2">
+                        Не завершені замовлення
+                        <p-sortIcon field="not_completed"></p-sortIcon>
+                    </div>
+                </div>
+            </th>
+            <th>
+                <div class="flex flex-column justify-content-center align-items-center">
+                    <div class="mb-2">
+                        Примітки
+                    </div>
+                    <p-columnFilter [showMenu]="false" matchMode="contains" type="text" field="notes" ></p-columnFilter>
+                </div>
+            </th>
+            <th>
+                Дії
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-customer>
+        <tr>
+            <td>
+                <a class="block w-12" [routerLink]="['c', customer.id]">{{ customer.name }}</a>
+            </td>
+            <td>
+                <a *ngIf="customer.phone" class="flex justify-content-center align-items-center" [href]="'tel:+38' + customer.phone">
+                    {{ customer.phone }}
+                    <i class="ml-1 text-green-500 pi pi-phone" style="font-size: 1.2rem"></i>
+                </a>
+            </td>
+            <td class="text-center text-green-500 font-bold">{{ customer.completed }}</td>
+            <td class="text-center" [ngClass]="customer.not_completed ? 'text-red-600 font-bold' : 'text-green-500'">
+              {{ customer.not_completed }}
+
+              <span *ngIf="customer.not_paid">(Не оплачено: {{ customer.not_paid }})</span>
+            </td>
+            <td>
+                {{ customer.notes }}
+            </td>
+            <td class="text-center white-space: nowrap;">
+                <button style="width: 1.2rem; height: 1.2rem; padding: .85rem" pButton type="button" icon="pi pi-pencil" class="p-button" (click)="edit(customer)"></button>
+                <button *ngIf="isAdmin" style="width: 1.2rem; height: 1.2rem; padding: .85rem" pButton type="button" icon="pi pi-trash" class="p-button p-button-danger ml-2" (click)="delete($event, customer)"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog (onHide)="customerForEdit = null" [style]="{width: '100vw', 'max-width': '400px', height: '400px'}" [draggable]="true" [modal]="true" [header]="customerForEdit ? 'Редагувати клієнта' : 'Новий клієнт'" [(visible)]="display">
+    <app-new-customer (onClose)="display = false" *ngIf="display" [customer]="customerForEdit"></app-new-customer>
+</p-dialog>

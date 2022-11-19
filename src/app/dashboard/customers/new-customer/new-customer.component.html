@@ -1,0 +1,23 @@
+<form [formGroup]="form" class="fluid formgrid grid" (ngSubmit)="saveCustomer()">
+    <div class="field col-12">
+        <label>Ім'я</label>
+        <input type="text" pInputText formControlName="name" class="inputfield w-full">
+    </div>
+
+    <div class="field col-12">
+        <label>Телефон</label>
+        <div class="w-full">
+            <p-inputMask (paste)="onPaste()" placeholder="(___)___-__-__" mask="(999)999-99-99" formControlName="phone" class="inputfield w-full"></p-inputMask>
+        </div>
+    </div>
+
+    <div class="field col-12">
+        <label>Примітки</label>
+        <textarea pInputTextarea formControlName="notes" class="inputfield w-full"></textarea>
+    </div>
+
+    <div class="field col-12">
+        <button type="submit" pButton class="p-button-success">Зберегти</button>
+        <button type="reset" pButton class="p-button-secondary ml-2" (click)="close()">Відмінити</button>
+    </div>
+</form>

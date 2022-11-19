@@ -1,0 +1,87 @@
+<form [formGroup]="form" class="fluid formgrid grid" (ngSubmit)="saveOrder()">
+    <div class="field col-12 md:col-6">
+        <label>Назва виробу</label>
+        <input type="text" pInputText formControlName="productName" class="inputfield w-full">
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Об'єм груді</label>
+        <input type="text" pInputText formControlName="breastVolume" class="inputfield w-full">
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Об'єм талії</label>
+        <input type="text" pInputText formControlName="waist" class="inputfield w-full">
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Довжина рук</label>
+        <input type="text" pInputText formControlName="armLength" class="inputfield w-full">
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Довжина кофти</label>
+        <input type="text" pInputText formControlName="sweaterLength" class="inputfield w-full">
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Розмір кофти</label>
+        <input type="text" pInputText formControlName="sweaterSize" class="inputfield w-full">
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Обхват манжета рукавів</label>
+        <input type="text" pInputText formControlName="cuffGirth" class="inputfield w-full">
+    </div>
+
+
+    <div class="field col-12 md:col-6">
+        <label>Об'єм бедер</label>
+        <input type="text" pInputText formControlName="hips" class="inputfield w-full">
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Довжина внутрішнього шву</label>
+        <input type="text" pInputText formControlName="innerSeam" class="inputfield w-full">
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Довжина брюк</label>
+        <input type="text" pInputText formControlName="pantsLength" class="inputfield w-full">
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Розмір брюк</label>
+        <input type="text" pInputText formControlName="pantsSize" class="inputfield w-full">
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Обхват манжета брюк</label>
+        <input type="text" pInputText formControlName="cuffTrouser" class="inputfield w-full">
+    </div>
+
+
+    <div class="field col-12 md:col-6">
+        <label>Наклейки</label>
+        <input type="text" pInputText formControlName="stickers" class="inputfield w-full">
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Ціна виробу</label>
+        <p-inputNumber formControlName="price" class="inputfield w-full"></p-inputNumber>
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Витрати</label>
+        <p-inputNumber formControlName="costs" class="inputfield w-full"></p-inputNumber>
+    </div>
+    <div class="field col-12 md:col-6">
+        <label>Заробіток</label>
+        <p-inputNumber formControlName="profit" class="inputfield w-full"></p-inputNumber>
+    </div>
+    <div class="field col-12">
+        <label>Примітки</label>
+        <textarea pInputTextarea formControlName="notes" class="inputfield w-full"></textarea>
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <p-checkbox label="Готове замовлення?" formControlName="isCompleted" [binary]="true"></p-checkbox>
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <p-checkbox label="Оплачене замовлення?" formControlName="isPaid" [binary]="true"></p-checkbox>
+    </div>
+
+    <div class="field col-12">
+        <button type="submit" pButton class="p-button-success">Зберегти</button>
+        <button type="reset" pButton class="p-button-secondary ml-2" (click)="close()">Відмінити</button>
+    </div>
+</form>

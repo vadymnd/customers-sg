@@ -1,0 +1,70 @@
+<div class="flex align-items-center mb-3">
+    <a href="" (click)="$event.preventDefault(); navigation.back();" pButton class="p-button-raised p-button-rounded">Назад</a>
+
+    <!-- <span class="text-4xl mx-5 text-bold">Всього витрачено {{ totalCost }} грн.</span> -->
+    <span class="text-4xl mx-5 text-bold">Весь прибуток <b class="text-red-500 font-bold">{{ totalProfit }} грн.</b></span>
+</div>
+
+<p-accordion>
+    <p-accordionTab header="Фільтрація">
+       <form [formGroup]="filter" class="grid">
+            <div class="field col-4">
+                <label class="block">Покупець</label>
+                <p-multiSelect styleClass="w-full" [style]="{height: '52px'}" [options]="allCustomers" formControlName="customerId" optionLabel="name" optionValue="id"></p-multiSelect>
+            </div>
+            <div class="field col-4">
+                <label class="block">Дата з</label>
+                <p-calendar styleClass="w-full" [touchUI]="true" [showClear]="true" formControlName="from"></p-calendar>
+            </div>
+            <div class="field col-4">
+                <label class="block">Дата по</label>
+                <p-calendar styleClass="w-full" [touchUI]="true" [showClear]="true" formControlName="to"></p-calendar>
+            </div>
+       </form>
+    </p-accordionTab>
+</p-accordion>
+
+<p-table styleClass="p-datatable-gridlines" [value]="customers" dataKey="name" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+        <tr>
+            <th class="text-center">
+                Ім'я
+            </th>
+            <!-- <th>
+                Витрати клієнта
+            </th>
+            <th pSortableColumn="totalCost">
+                <div class="flex flex-column justify-content-center align-items-center">
+                    <div class="mb-2">
+                        Витрачено
+                    </div>
+                    <p-sortIcon field="totalCost"></p-sortIcon>
+                </div>
+            </th> -->
+            <th pSortableColumn="totalProfit">
+                <div class="flex justify-content-center">
+                    <div class="mb-2">
+                        Прибуток
+                    </div>
+                    <p-sortIcon field="totalProfit"></p-sortIcon>
+                </div>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-customer>
+        <tr>
+            <td>
+                <a class="block w-12" [routerLink]="['/c', customer.id]">{{ customer.name }}</a>
+            </td>
+            <!-- <td>
+                {{ customer.totalCost + customer.totalProfit }}
+            </td>
+            <td>
+                {{ customer.totalCost }}
+            </td> -->
+            <td class="text-center">
+                {{ customer.totalProfit }}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
