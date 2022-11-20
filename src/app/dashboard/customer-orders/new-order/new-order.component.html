@@ -6,17 +6,17 @@
 
   <div class="field col-12 md:col-6">
     <label>Кількість метрів</label>
-    <p-inputNumber [maxFractionDigits]="2" formControlName="meter" class="inputfield w-full"></p-inputNumber>
+    <p-inputNumber [maxFractionDigits]="2" mode="decimal" locale="ru-RU" formControlName="meter" class="inputfield w-full"></p-inputNumber>
   </div>
 
   <div class="field col-12 md:col-6">
     <label>Ціна за метр (для покупця)</label>
-    <p-inputNumber [maxFractionDigits]="2"r formControlName="buyerMeterPrice" class="inputfield w-full"></p-inputNumber>
+    <p-inputNumber [maxFractionDigits]="2" mode="decimal" locale="ru-RU" formControlName="buyerMeterPrice" class="inputfield w-full"></p-inputNumber>
   </div>
 
   <div class="field col-12 md:col-6">
     <label>Ціна за метр (в закупці)</label>
-    <p-inputNumber [maxFractionDigits]="2" formControlName="purchaseMeterPrice" class="inputfield w-full"></p-inputNumber>
+    <p-inputNumber [maxFractionDigits]="2" mode="decimal" locale="ru-RU" formControlName="purchaseMeterPrice" class="inputfield w-full"></p-inputNumber>
   </div>
 
   <!-- замочки і тд -->
@@ -37,7 +37,7 @@
         <div class="field col-12 md:col-6">
           <label>Ціна</label>
           <div class="flex align-items-center">
-            <p-inputNumber [maxFractionDigits]="2" formControlName="price" class="inputfield w-full"></p-inputNumber>
+            <p-inputNumber [maxFractionDigits]="2" mode="decimal" locale="ru-RU" formControlName="price" class="inputfield w-full"></p-inputNumber>
             <button style="width: 25px; min-width: 25px; height: 25px;" pButton pRipple icon="pi pi-minus" class="p-button-rounded p-button-danger ml-3"
               type="button" (click)="removeItems(additionalPlusItems, i)">
             </button>
@@ -65,7 +65,7 @@
         <div class="field col-12 md:col-6">
           <label>Ціна</label>
           <div class="flex align-items-center">
-            <p-inputNumber [maxFractionDigits]="2" formControlName="price" class="inputfield w-full"></p-inputNumber>
+            <p-inputNumber [maxFractionDigits]="2" mode="decimal" locale="ru-RU" formControlName="price" class="inputfield w-full"></p-inputNumber>
             <button style="width: 25px; min-width: 25px; height: 25px;" pButton pRipple icon="pi pi-minus" class="p-button-rounded p-button-danger ml-3"
               type="button" (click)="removeItems(additionalMinusItems, i)">
             </button>
@@ -77,12 +77,12 @@
 
   <div class="field col-12 md:col-6">
     <label>Заробіток</label>
-    <p-inputNumber [maxFractionDigits]="2" formControlName="profit" class="inputfield w-full"></p-inputNumber>
+    <p-inputNumber [maxFractionDigits]="2" mode="decimal" locale="ru-RU" formControlName="profit" class="inputfield w-full"></p-inputNumber>
   </div>
 
   <div class="field col-12 md:col-6">
     <label>Ціна для клієнта</label>
-    <p-inputNumber [maxFractionDigits]="2" formControlName="price" class="inputfield w-full"></p-inputNumber>
+    <p-inputNumber [maxFractionDigits]="2" mode="decimal" locale="ru-RU" formControlName="price" class="inputfield w-full"></p-inputNumber>
   </div>
 
   <div class="field col-12">
