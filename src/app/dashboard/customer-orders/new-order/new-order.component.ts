@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { delay, merge } from 'rxjs';
 import { CustomersService, Order } from 'src/app/shared/services/customers.service';
 
 @Component({
@@ -15,21 +16,13 @@ export class NewOrderComponent implements OnInit {
   form: FormGroup = new FormGroup({
     id: new FormControl(),
     productName: new FormControl(null),
-    breastVolume: new FormControl(null),
-    waist: new FormControl(null),
-    hips: new FormControl(null),
-    armLength: new FormControl(null),
-    sweaterLength: new FormControl(null),
-    innerSeam: new FormControl(null),
-    pantsLength: new FormControl(null),
-    sweaterSize: new FormControl(null),
-    pantsSize: new FormControl(null),
-    cuffGirth: new FormControl(null),
-    cuffTrouser: new FormControl(null),
-    stickers: new FormControl(null),
-    price: new FormControl(null),
-    costs: new FormControl(null),
-    profit: new FormControl(null),
+    meter: new FormControl(0, Validators.required),
+    buyerMeterPrice: new FormControl(0, Validators.required),
+    purchaseMeterPrice: new FormControl(0, Validators.required),
+    additionalPlusItems: new FormArray([]),
+    additionalMinusItems: new FormArray([]),
+    profit: new FormControl(0),
+    price: new FormControl(0),
     notes: new FormControl(null),
     isCompleted: new FormControl(false),
     isPaid: new FormControl(false),
@@ -43,8 +36,27 @@ export class NewOrderComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.order) {
-      this.form.patchValue(this.order)
+      this.order.additionalPlusItems.forEach(v => this.addItems(this.additionalPlusItems, v));
+      this.order.additionalMinusItems.forEach(v => this.addItems(this.additionalMinusItems, v));
+
+      this.form.patchValue(this.order);
     }
+
+    merge(
+      this.form.controls['meter'].valueChanges,
+      this.form.controls['buyerMeterPrice'].valueChanges,
+      this.form.controls['purchaseMeterPrice'].valueChanges
+    ).pipe(
+      delay(300)
+    ).subscribe(() => this.priceCalc())
+  }
+
+  public get additionalPlusItems(): FormArray {
+    return this.form.controls['additionalPlusItems'] as FormArray
+  }
+
+  public get additionalMinusItems(): FormArray {
+    return this.form.controls['additionalMinusItems'] as FormArray
   }
 
   close() {
@@ -62,6 +74,51 @@ export class NewOrderComponent implements OnInit {
     }
     this.customerService[functName](this.customerId, this.form.value);
     this.onClose.emit();
+  }
+
+  addItems(array: FormArray, data?: any) {
+    const item = new FormGroup({
+      name: new FormControl(),
+      price: new FormControl(0)
+    });
+
+    item.controls['price'].valueChanges.pipe(
+      delay(300)
+    ).subscribe(() => this.priceCalc())
+
+    if (data) {
+      item.patchValue(data)
+    }
+
+    array.insert(0, item)
+  }
+
+  removeItems(array: FormArray, index: number) {
+    array.removeAt(index);
+    this.priceCalc();
+  }
+
+  priceCalc() {
+    if (this.form.valid) {
+      const value = this.form.getRawValue();
+      const priceDiff = value.buyerMeterPrice - value.purchaseMeterPrice;
+      let profit = priceDiff * value.meter;
+      let price = value.meter * value.buyerMeterPrice;
+
+      this.additionalPlusItems.controls.forEach((c) => {
+        profit += c.value.price;
+        price += c.value.price;
+      });
+
+      this.additionalMinusItems.controls.forEach((c) => {
+        profit -= c.value.price;
+      });
+
+      this.form.patchValue({
+        profit: profit,
+        price: price
+      }, { emitEvent: false });
+    }
   }
 
 }

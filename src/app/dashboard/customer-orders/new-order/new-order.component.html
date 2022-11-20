@@ -1,87 +1,105 @@
 <form [formGroup]="form" class="fluid formgrid grid" (ngSubmit)="saveOrder()">
-    <div class="field col-12 md:col-6">
-        <label>Назва виробу</label>
-        <input type="text" pInputText formControlName="productName" class="inputfield w-full">
-    </div>
-    <div class="field col-12 md:col-6">
-        <label>Об'єм груді</label>
-        <input type="text" pInputText formControlName="breastVolume" class="inputfield w-full">
-    </div>
-    <div class="field col-12 md:col-6">
-        <label>Об'єм талії</label>
-        <input type="text" pInputText formControlName="waist" class="inputfield w-full">
-    </div>
-    <div class="field col-12 md:col-6">
-        <label>Довжина рук</label>
-        <input type="text" pInputText formControlName="armLength" class="inputfield w-full">
-    </div>
-    <div class="field col-12 md:col-6">
-        <label>Довжина кофти</label>
-        <input type="text" pInputText formControlName="sweaterLength" class="inputfield w-full">
-    </div>
-    <div class="field col-12 md:col-6">
-        <label>Розмір кофти</label>
-        <input type="text" pInputText formControlName="sweaterSize" class="inputfield w-full">
-    </div>
-    <div class="field col-12 md:col-6">
-        <label>Обхват манжета рукавів</label>
-        <input type="text" pInputText formControlName="cuffGirth" class="inputfield w-full">
-    </div>
+  <div class="field col-12 md:col-6">
+    <label>Назва виробу</label>
+    <input type="text" pInputText formControlName="productName" class="inputfield w-full">
+  </div>
 
+  <div class="field col-12 md:col-6">
+    <label>Кількість метрів</label>
+    <p-inputNumber formControlName="meter" class="inputfield w-full"></p-inputNumber>
+  </div>
 
-    <div class="field col-12 md:col-6">
-        <label>Об'єм бедер</label>
-        <input type="text" pInputText formControlName="hips" class="inputfield w-full">
-    </div>
-    <div class="field col-12 md:col-6">
-        <label>Довжина внутрішнього шву</label>
-        <input type="text" pInputText formControlName="innerSeam" class="inputfield w-full">
-    </div>
-    <div class="field col-12 md:col-6">
-        <label>Довжина брюк</label>
-        <input type="text" pInputText formControlName="pantsLength" class="inputfield w-full">
-    </div>
-    <div class="field col-12 md:col-6">
-        <label>Розмір брюк</label>
-        <input type="text" pInputText formControlName="pantsSize" class="inputfield w-full">
-    </div>
-    <div class="field col-12 md:col-6">
-        <label>Обхват манжета брюк</label>
-        <input type="text" pInputText formControlName="cuffTrouser" class="inputfield w-full">
-    </div>
+  <div class="field col-12 md:col-6">
+    <label>Ціна за метр (для покупця)</label>
+    <p-inputNumber formControlName="buyerMeterPrice" class="inputfield w-full"></p-inputNumber>
+  </div>
 
+  <div class="field col-12 md:col-6">
+    <label>Ціна за метр (в закупці)</label>
+    <p-inputNumber formControlName="purchaseMeterPrice" class="inputfield w-full"></p-inputNumber>
+  </div>
 
-    <div class="field col-12 md:col-6">
-        <label>Наклейки</label>
-        <input type="text" pInputText formControlName="stickers" class="inputfield w-full">
+  <!-- замочки і тд -->
+  <div class="field w-full border-bottom-1">
+    <div class="col-12 mb-3 flex align-items-baseline">
+      <span class="font-bold">Додаткові витрати для клієнта</span>
+      <button style="width: 25px; min-width: 25px; height: 25px;" pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-success ml-3"
+        type="button" (click)="addItems(additionalPlusItems)">
+      </button>
     </div>
-    <div class="field col-12 md:col-6">
-        <label>Ціна виробу</label>
-        <p-inputNumber formControlName="price" class="inputfield w-full"></p-inputNumber>
+    <div formGroupName="additionalPlusItems">
+      <div class="flex flex-wrap" *ngFor="let item of additionalPlusItems.controls; let i = index;"
+        [formGroupName]="i">
+        <div class="field col-12 md:col-6">
+          <label>Назва</label>
+          <input type="text" pInputText formControlName="name" class="inputfield w-full">
+        </div>
+        <div class="field col-12 md:col-6">
+          <label>Ціна</label>
+          <div class="flex align-items-center">
+            <p-inputNumber formControlName="price" class="inputfield w-full"></p-inputNumber>
+            <button style="width: 25px; min-width: 25px; height: 25px;" pButton pRipple icon="pi pi-minus" class="p-button-rounded p-button-danger ml-3"
+              type="button" (click)="removeItems(additionalPlusItems, i)">
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="field col-12 md:col-6">
-        <label>Витрати</label>
-        <p-inputNumber formControlName="costs" class="inputfield w-full"></p-inputNumber>
-    </div>
-    <div class="field col-12 md:col-6">
-        <label>Заробіток</label>
-        <p-inputNumber formControlName="profit" class="inputfield w-full"></p-inputNumber>
-    </div>
-    <div class="field col-12">
-        <label>Примітки</label>
-        <textarea pInputTextarea formControlName="notes" class="inputfield w-full"></textarea>
-    </div>
+  </div>
 
-    <div class="field col-12 md:col-6">
-        <p-checkbox label="Готове замовлення?" formControlName="isCompleted" [binary]="true"></p-checkbox>
+  <!-- зарплати і тд -->
+  <div class="field w-full border-bottom-1">
+    <div class="col-12 mb-3 flex align-items-baseline">
+      <span class="font-bold">Додаткові витрати для мене</span>
+      <button style="width: 25px; min-width: 25px; height: 25px;" pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-success ml-3"
+        type="button" (click)="addItems(additionalMinusItems)">
+      </button>
     </div>
+    <div formGroupName="additionalMinusItems">
+      <div class="flex flex-wrap" *ngFor="let item of additionalMinusItems.controls; let i = index;"
+        [formGroupName]="i">
+        <div class="field col-12 md:col-6">
+          <label>Назва</label>
+          <input type="text" pInputText formControlName="name" class="inputfield w-full">
+        </div>
+        <div class="field col-12 md:col-6">
+          <label>Ціна</label>
+          <div class="flex align-items-center">
+            <p-inputNumber formControlName="price" class="inputfield w-full"></p-inputNumber>
+            <button style="width: 25px; min-width: 25px; height: 25px;" pButton pRipple icon="pi pi-minus" class="p-button-rounded p-button-danger ml-3"
+              type="button" (click)="removeItems(additionalMinusItems, i)">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <div class="field col-12 md:col-6">
-      <p-checkbox label="Оплачене замовлення?" formControlName="isPaid" [binary]="true"></p-checkbox>
-    </div>
+  <div class="field col-12 md:col-6">
+    <label>Заробіток</label>
+    <p-inputNumber formControlName="profit" class="inputfield w-full"></p-inputNumber>
+  </div>
 
-    <div class="field col-12">
-        <button type="submit" pButton class="p-button-success">Зберегти</button>
-        <button type="reset" pButton class="p-button-secondary ml-2" (click)="close()">Відмінити</button>
-    </div>
+  <div class="field col-12 md:col-6">
+    <label>Ціна для клієнта</label>
+    <p-inputNumber formControlName="price" class="inputfield w-full"></p-inputNumber>
+  </div>
+
+  <div class="field col-12">
+    <label>Примітки</label>
+    <textarea pInputTextarea formControlName="notes" class="inputfield w-full"></textarea>
+  </div>
+
+  <div class="field col-12 md:col-6">
+    <p-checkbox label="Готове замовлення?" formControlName="isCompleted" [binary]="true"></p-checkbox>
+  </div>
+
+  <div class="field col-12 md:col-6">
+    <p-checkbox label="Оплачене замовлення?" formControlName="isPaid" [binary]="true"></p-checkbox>
+  </div>
+
+  <div class="field col-12">
+    <button type="submit" pButton class="p-button-success">Зберегти</button>
+    <button type="reset" pButton class="p-button-secondary ml-2" (click)="close()">Відмінити</button>
+  </div>
 </form>

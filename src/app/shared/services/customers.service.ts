@@ -7,24 +7,22 @@ export interface Order {
   created: number;
   updated: number;
   productName: string;
-  breastVolume: string | number;
-  waist: string | number;
-  hips: string | number;
-  armLength: string | number;
-  sweaterLength: string | number;
-  pantsLength: string | number;
-  sweaterSize: string | number;
-  innerSeam: string | number;
-  pantsSize: string | number;
-  cuffGirth: string | number;
-  cuffTrouser: string | number;
-  stickers: string | number;
-  price: string | number;
-  costs: number;
-  profit: number;
   notes: string | number;
   isCompleted: boolean;
   isPaid: boolean;
+  meter: string | number;
+  buyerMeterPrice: string | number;
+  purchaseMeterPrice: string | number;
+  additionalPlusItems: {
+    name: string
+    price: string
+  }[];
+  additionalMinusItems: {
+    name: string
+    price: string
+  }[];
+  profit: number;
+  price: number;
 }
 
 export interface Customer {
@@ -37,6 +35,7 @@ export interface Customer {
   phone?: string;
   completed?: number;
   not_completed?: number;
+  not_paid?: number;
   totalCost?: number;
   totalProfit?: number;
 }
@@ -52,7 +51,7 @@ export class CustomersService {
   constructor(
     private afs: AngularFirestore
   ) {
-    this._customers$ = this.afs.doc('JSON/all').valueChanges().pipe(
+    this._customers$ = this.afs.doc('s.gonchar/all').valueChanges().pipe(
       map((resp: any) => JSON.parse(resp.data))
     );
     this._customers$.subscribe((customers: Customer[]) => {
@@ -123,6 +122,6 @@ export class CustomersService {
   }
 
   updateStorage() {
-    this.afs.doc('JSON/all').update({ data: JSON.stringify(this._customers) })
+    this.afs.doc('s.gonchar/all').update({ data: JSON.stringify(this._customers) })
   }
 }
