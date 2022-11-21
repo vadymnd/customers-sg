@@ -48,7 +48,8 @@ export class AppComponent {
 
     this.onlineStatusService.status.subscribe((status: OnlineStatusType) => {
       if (!status) {
-        return alert("Перевірте інтернет-з'єднання")
+        alert("Перевірте інтернет-з'єднання")
+        return window.location.reload()
       }
     });
   }
