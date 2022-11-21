@@ -129,7 +129,14 @@ export class CustomersService {
   updateStorage() {
     this.spinner.show();
     this.afs.doc('s.gonchar/all').update({ data: JSON.stringify(this._customers) })
-    .catch(() => alert("Перевірте інтернет-з'єднання"))
-    .finally(() => this.spinner.hide(PRIMARY_SPINNER, 500))
+      .catch(() => alert("Перевірте інтернет-з'єднання"))
+      .finally(() => this.spinner.hide(PRIMARY_SPINNER, 500));
+
+    //backup
+    const date = new Date();
+    this.afs.doc(`s.gonchar/${date.getDay()}.${date.getMonth()}.${date.getFullYear()}`).update({ data: JSON.stringify(this._customers) })
+      .catch(() => {
+        this.afs.doc(`s.gonchar/${date.getDay()}.${date.getMonth()}.${date.getFullYear()}`).set({ data: JSON.stringify(this._customers) })
+      });
   }
 }
