@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { NgxSpinnerService, PRIMARY_SPINNER } from "ngx-spinner";
 
 export interface Order {
   id: string;
@@ -49,13 +50,17 @@ export class CustomersService {
   private _customers$: Observable<Customer[]>;
 
   constructor(
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private spinner: NgxSpinnerService
   ) {
+    this.spinner.show();
     this._customers$ = this.afs.doc('s.gonchar/all').valueChanges().pipe(
+      catchError(() => throwError(() => alert("Перевірте інтернет-з'єднання"))),
       map((resp: any) => JSON.parse(resp.data))
     );
     this._customers$.subscribe((customers: Customer[]) => {
-      this._customers = customers
+      this._customers = customers;
+      this.spinner.hide(PRIMARY_SPINNER, 500)
     });
   }
 
@@ -122,6 +127,9 @@ export class CustomersService {
   }
 
   updateStorage() {
+    this.spinner.show();
     this.afs.doc('s.gonchar/all').update({ data: JSON.stringify(this._customers) })
+    .catch(() => alert("Перевірте інтернет-з'єднання"))
+    .finally(() => this.spinner.hide(PRIMARY_SPINNER, 500))
   }
 }

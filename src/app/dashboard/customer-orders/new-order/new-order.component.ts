@@ -72,6 +72,9 @@ export class NewOrderComponent implements OnInit {
         created: +new Date()
       })
     }
+
+    this.priceCalc();
+
     this.customerService[functName](this.customerId, this.form.value);
     this.onClose.emit();
   }
@@ -115,8 +118,8 @@ export class NewOrderComponent implements OnInit {
       });
 
       this.form.patchValue({
-        profit: profit,
-        price: price
+        profit: Math.round((profit + Number.EPSILON) * 100) / 100,
+        price: Math.round((price + Number.EPSILON) * 100) / 100
       }, { emitEvent: false });
     }
   }

@@ -12,6 +12,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 registerLocaleData(localeRu)
 
@@ -25,6 +26,7 @@ registerLocaleData(localeRu)
     AppRoutingModule,
     ConfirmPopupModule,
     HttpClientModule,
+    NgxSpinnerModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule.enablePersistence()
   ],
