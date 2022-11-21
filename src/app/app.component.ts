@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { OnlineStatusService, OnlineStatusType } from 'ngx-online-status';
 import { ConfirmationService, PrimeNGConfig } from 'primeng/api';
 
 @Component({
@@ -11,7 +12,8 @@ export class AppComponent {
   title = 'Customers';
 
   constructor(
-    config: PrimeNGConfig
+    config: PrimeNGConfig,
+    private onlineStatusService: OnlineStatusService
   ) {
     config.setTranslation({
       "dayNamesMin": [
@@ -42,6 +44,12 @@ export class AppComponent {
       "firstDayOfWeek": 1,
       "today": "Сьогодні",
       "emptyMessage": "Нічого не знайдено"
-    })
+    });
+
+    this.onlineStatusService.status.subscribe((status: OnlineStatusType) => {
+      if (!status) {
+        return alert("Перевірте інтернет-з'єднання")
+      }
+    });
   }
 }

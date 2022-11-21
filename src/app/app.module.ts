@@ -13,6 +13,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { OnlineStatusModule } from "ngx-online-status";
 
 registerLocaleData(localeRu)
 
@@ -27,6 +28,7 @@ registerLocaleData(localeRu)
     ConfirmPopupModule,
     HttpClientModule,
     NgxSpinnerModule,
+    OnlineStatusModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule.enablePersistence()
   ],
