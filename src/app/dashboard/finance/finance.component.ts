@@ -62,11 +62,17 @@ export class FinanceComponent implements OnInit {
             totalProfit: cus.orders.filter(o => o.isCompleted && o.isPaid).map(o => +o.profit).reduce((a, b) => a + b, 0)
           }
         });
+      console.log(this.allCustomers.map(c => c.orders));
+
     })
   }
 
   updateCustomers(v: Filter) {
+    console.log(v);
+    
     if (!Object.values(v).filter(v => Array.isArray(v) ? v.length : v).length) {
+      console.log(this.allCustomers.map(c => c.orders));
+      
       return this.allCustomers
     }
 
@@ -77,20 +83,20 @@ export class FinanceComponent implements OnInit {
     if (+v.from && !+v.to) {
       _customers = _customers.map((c) => {
         let orders = c?.orders.filter((o: Order) => +v.from < o.updated);
-        return orders?.length ? Object.assign(c, {orders: orders}) : null
+        return orders?.length ? {...c, orders: orders} : null
       })
     }
     if (+v.to && !+v.from) {
       _customers = _customers.map((c) => {
         let orders = c?.orders.filter((o: Order) => o.updated < +v.to);
-        return orders?.length ? Object.assign(c, {orders: orders}) : null
+        return orders?.length ? {...c, orders: orders} : null
       })
     }
 
     if (+v.to && +v.from) {
       _customers = _customers.map((c) => {
         let orders = c?.orders.filter((o: Order) => (+v.from < o.updated) && (+v.to > o.updated));
-        return orders?.length ? Object.assign(c, {orders: orders}) : null
+        return orders?.length ? {...c, orders: orders} : null
       })
     }
 
