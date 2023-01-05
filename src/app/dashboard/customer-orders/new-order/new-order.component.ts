@@ -75,7 +75,7 @@ export class NewOrderComponent implements OnInit {
 
     this.priceCalc();
 
-    this.customerService[functName](this.customerId, this.form.value);
+    this.customerService[functName](this.customerId, this.form.value, !this.form.value.isCompleted);
     this.onClose.emit();
   }
 

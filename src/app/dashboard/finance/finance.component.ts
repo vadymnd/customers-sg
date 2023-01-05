@@ -39,8 +39,8 @@ export class FinanceComponent implements OnInit {
         .map(cus => {
           return {
             ...cus,
-            orders: cus.orders.filter(o => o.isCompleted),
-            totalProfit: cus.orders.filter(o => o.isCompleted).map(o => +o.profit).reduce((a, b) => a + b, 0)
+            orders: cus.orders.filter(o => o.isCompleted && o.isPaid),
+            totalProfit: cus.orders.filter(o => o.isCompleted && o.isPaid).map(o => +o.profit).reduce((a, b) => a + b, 0)
           }
         })
     });
@@ -50,16 +50,16 @@ export class FinanceComponent implements OnInit {
         .map(cus => {
           return {
             ...cus,
-            orders: cus.orders.filter(o => o.isCompleted),
-            totalProfit: cus.orders.filter(o => o.isCompleted).map(o => +o.profit).reduce((a, b) => a + b, 0)
+            orders: cus.orders.filter(o => o.isCompleted && o.isPaid),
+            totalProfit: cus.orders.filter(o => o.isCompleted && o.isPaid).map(o => +o.profit).reduce((a, b) => a + b, 0)
           }
         });
       this.allCustomers = c
         .map(cus => {
           return {
             ...cus,
-            orders: cus.orders.filter(o => o.isCompleted),
-            totalProfit: cus.orders.filter(o => o.isCompleted).map(o => +o.profit).reduce((a, b) => a + b, 0)
+            orders: cus.orders.filter(o => o.isCompleted && o.isPaid),
+            totalProfit: cus.orders.filter(o => o.isCompleted && o.isPaid).map(o => +o.profit).reduce((a, b) => a + b, 0)
           }
         });
     })
@@ -102,6 +102,6 @@ export class FinanceComponent implements OnInit {
   }
 
   public get totalProfit(): number {
-    return this.customers.reduce((a, b) => a + (b.totalProfit || 0), 0)
+    return Math.round((this.customers.reduce((a, b) => a + (b.totalProfit || 0), 0)) * 100) / 100
   }
 }

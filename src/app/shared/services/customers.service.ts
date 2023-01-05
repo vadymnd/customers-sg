@@ -82,14 +82,18 @@ export class CustomersService {
     this.updateStorage();
   }
 
-  updateOrder(id: string, data: any) {
+  updateOrder(id: string, data: any, needUpdate?: boolean) {
     const customer = this._customers.find(c => c.id == id);
     if (!customer) {
       return alert('Щось пішло не так')
     }
     const newUpdate = +new Date();
     const old_order_index = customer.orders.findIndex(o => o.id == data.id);
-    data.updated = newUpdate;
+
+    if (needUpdate) {
+      data.updated = newUpdate;
+    }
+
     customer.orders.splice(old_order_index, 1, data);
     this.updateStorage();
   }

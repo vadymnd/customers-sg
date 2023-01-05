@@ -2,7 +2,7 @@
     <a href="" (click)="$event.preventDefault(); navigation.back();" pButton class="p-button-raised p-button-rounded">Назад</a>
 
     <!-- <span class="text-4xl mx-5 text-bold">Всього витрачено {{ totalCost }} грн.</span> -->
-    <span class="text-4xl mx-5 text-bold">Весь прибуток <b class="text-red-500 font-bold">{{ totalProfit }} грн.</b></span>
+    <span class="text-4xl mx-5 text-bold">Весь прибуток <b class="text-red-500 font-bold">{{ totalProfit | number: '1.2-2' }} грн.</b></span>
 </div>
 
 <p-accordion>
@@ -63,7 +63,7 @@
                 {{ customer.totalCost }}
             </td> -->
             <td class="text-center">
-                {{ customer.totalProfit }}
+                {{ customer.totalProfit | number: '1.2-2' }}
             </td>
         </tr>
     </ng-template>
