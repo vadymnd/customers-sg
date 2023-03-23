@@ -138,9 +138,9 @@ export class CustomersService {
 
     //backup
     const date = new Date();
-    this.afs.doc(`s.gonchar/${date.getDay()}.${date.getMonth()}.${date.getFullYear()}`).update({ data: JSON.stringify(this._customers) })
+    this.afs.doc(`s.gonchar/${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`).update({ data: JSON.stringify(this._customers) })
       .catch(() => {
-        this.afs.doc(`s.gonchar/${date.getDay()}.${date.getMonth()}.${date.getFullYear()}`).set({ data: JSON.stringify(this._customers) })
+        this.afs.doc(`s.gonchar/${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`).set({ data: JSON.stringify(this._customers) })
       });
   }
 }
